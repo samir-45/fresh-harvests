@@ -6,7 +6,7 @@ import Link from 'next/link'
 const HeroSection = () => {
     return (
         <main className="min-h-screen w-full bg-fresh-cream relative overflow-hidden">
-            <div className='z-50 relative'>
+            <div className='z-50 relative w-11/12 mx-auto'>
                 <Navbar />
             </div>
 
@@ -29,7 +29,7 @@ const HeroSection = () => {
             </div>
 
             {/* Hero Content Grid */}
-            <section className="max-w-container mx-auto px-4 sm:px-8 py-12 relative z-10">
+            <section className="w-11/12 mx-auto px-4 sm:px-8 py-12 z-10">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
 
                     {/* --- Left Column (Text Content) --- */}
@@ -40,12 +40,12 @@ const HeroSection = () => {
                         </span>
 
                         {/* Main Heading */}
-                        <h1 className="text-5xl lg:text-7xl font-bold text-fresh-dark leading-[1.1] mb-6">
+                        <h1 className="text-5xl relative lg:text-7xl font-bold text-fresh-dark leading-[1.1] mb-6">
                             Fresh Fruits and Vegetables
                         </h1>
 
                         {/* Subtext */}
-                        <p className="text-fresh-gray text-lg  max-w-lg leading-relaxed">
+                        <p className="text-fresh-gray text-lg relative max-w-lg leading-relaxed">
                             At Fresh Harvests, we are passionate about providing you with the freshest and most flavorful fruits and vegetables.
                         </p>
 
@@ -101,14 +101,14 @@ const HeroSection = () => {
 
 
                     {/* --- Right Column (Hero Image) --- */}
-                    <div className="md:col-span-5 lg:col-span-6 -bottom-12 md:-bottom-32 lg:-bottom-12 relative mt-12 md:mt-0">
+                    <div className="md:col-span-5 lg:col-span-6 -right-10 -bottom-16 relative sm:absolute mt-12 md:mt-0">
                         <Image
                             src="/assets/images/girl-basket.png"
                             alt="Girl holding fresh vegetable crate"
                             width={520}
                             height={680}
                             priority
-                            className="h-auto w-10/12 md:w-10/12 max-w-none ml-auto bottom-0 translate-x-[calc(12vw-12%)] sm:translate-x-[calc(5vw-5%)]"
+                            className="h-auto w-sm md:w-lg max-w-none ml-auto bottom-0 "
                         />
                     </div>
 
