@@ -21,10 +21,10 @@ const HeroSection = () => {
 
             {/* Decorative Floating Leaves */}
             <div className="absolute top-24 left-[-2%] w-16 h-16 z-10 pointer-events-none">
-                <Image src="/images/leaf-1.png" alt="" fill className="object-contain rotate-12" />
+                <Image src="/assets/images/leaf-1.png" alt="" fill className="object-contain rotate-12" />
             </div>
             <div className="absolute top-16 left-[55%] w-12 h-12 z-10 pointer-events-none">
-                <Image src="/images/leaf-2.png" alt="" fill className="object-contain -rotate-12" />
+                <Image src="/assets/images/leaf-2.png" alt="" fill className="object-contain -rotate-12" />
             </div>
 
             {/* Hero Content Grid */}
