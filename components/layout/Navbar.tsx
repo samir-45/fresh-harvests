@@ -7,6 +7,7 @@ import RegisterModal from "@/components/auth/RegisterModal";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logout } from "@/store/features/auth/authSlice";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Navbar() {
     const token = useAppSelector((s) => s.auth.token);
@@ -27,8 +28,9 @@ export default function Navbar() {
         <>
             <header className="mx-auto max-w-6xl px-4 py-6">
                 <div className="flex items-center justify-between">
-                    <Link href="/" className="font-semibold text-gray-900">
-                        Fresh Harvests
+                    <Link href="/" className="font-semibold flex items-center gap-2 text-gray-900">
+                    <Image src="/assets/images/Logo.png" alt="Fresh Harvests Logo" width={40} height={40} />
+                    <p className="font-bold text-xl">Fresh Harvests</p>
                     </Link>
 
                     <nav className="hidden items-center gap-8 text-sm text-gray-600 md:flex">
