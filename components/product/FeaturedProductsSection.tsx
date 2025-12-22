@@ -3,8 +3,12 @@
 import { useMemo, useState } from "react";
 import { useGetCategoriesQuery, useGetProductsQuery } from "@/store/services/api";
 import ProductCard from "./ProductCard";
+import { usePathname } from "next/navigation";
 
 export default function FeaturedProductsSection() {
+    const pathname = usePathname();
+  const isHome = pathname === "/";
+
   const { data: catRes } = useGetCategoriesQuery();
   const { data: prodRes, isLoading } = useGetProductsQuery();
 
@@ -24,10 +28,14 @@ export default function FeaturedProductsSection() {
     return products.filter((p) => p.categoryId === cat.id);
   }, [active, products, categories]);
 
+    const visibleProducts = useMemo(() => {
+    return isHome ? filtered.slice(0, 8) : filtered;
+  }, [filtered, isHome]);
+
   return (
     <section className="mx-auto max-w-6xl px-4 py-12">
       <div className="text-center">
-        <div className="mx-auto inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
+        <div className="mx-auto inline-flex rounded-md bg-[#759b3f34] px-3 py-1 text-xs font-medium text-[#749B3F]">
           Our Products
         </div>
         <h2 className="mt-3 text-3xl font-bold text-gray-900">Our Fresh Products</h2>
@@ -41,8 +49,8 @@ export default function FeaturedProductsSection() {
               key={t}
               onClick={() => setActive(t)}
               className={[
-                "rounded-lg border px-4 py-2 text-sm",
-                active === t ? "bg-green-600 text-white border-green-600" : "bg-white text-gray-600 hover:bg-gray-50",
+                "rounded-lg  px-4 py-2 text-sm",
+                active === t ? "bg-[#749B3F] text-white" : "bg-white border text-[#A6A6A6] hover:bg-gray-50",
               ].join(" ")}
             >
               {t}
@@ -52,13 +60,11 @@ export default function FeaturedProductsSection() {
       </div>
 
       <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
-{isLoading
-  ? Array.from({ length: filtered.length || 8 }).map((_, i) => (
-      <div key={i} className="h-[260px] rounded-2xl bg-gray-100" />
-    ))
-  : filtered.map((p) => (
-      <ProductCard key={p.id} product={p} />
-    ))}
+        {isLoading
+          ? Array.from({ length: isHome ? 8 : 12 }).map((_, i) => (
+              <div key={i} className="h-[260px] rounded-2xl bg-gray-100" />
+            ))
+          : visibleProducts.map((p) => <ProductCard key={p.id} product={p} />)}
       </div>
     </section>
   );

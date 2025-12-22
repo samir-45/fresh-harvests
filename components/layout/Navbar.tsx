@@ -28,7 +28,7 @@ export default function Navbar() {
 
     return (
         <>
-            <div className="navbar">
+            <div className="navbar w-11/12 mx-auto">
                 {/* LEFT: Logo (unchanged) */}
                 <div className="navbar-start">
                     <Link href="/" className="btn btn-ghost text-xl gap-2">

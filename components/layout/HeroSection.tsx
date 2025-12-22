@@ -6,7 +6,7 @@ import Link from 'next/link'
 const HeroSection = () => {
     return (
         <main className="min-h-screen w-full bg-fresh-cream relative overflow-hidden">
-            <div className='z-50 relative w-11/12 mx-auto'>
+            <div className='z-50 relative'>
                 <Navbar />
             </div>
 
