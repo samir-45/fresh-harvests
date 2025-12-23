@@ -55,7 +55,7 @@ export default function Navbar() {
           <ul className="menu menu-horizontal px-1">
             <li><NavLink href="/">Home</NavLink></li>
             <li><NavLink href="/shop">Shop</NavLink></li>
-            <li><NavLink href="/#about">About us</NavLink></li>
+            <li><NavLink href="/about">About us</NavLink></li>
             <li><NavLink href="/#blog">Blog</NavLink></li>
           </ul>
         </div>

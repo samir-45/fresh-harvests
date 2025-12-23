@@ -8,6 +8,7 @@ import {
   useAddCategoryMutation,
   useGetCategoriesQuery,
 } from "@/store/services/api";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -220,17 +221,22 @@ export default function AdminUploadProductsPage() {
             </button>
           </div>
 
-          <div className="space-y-3 text-sm text-gray-600">
-            <p>
-              When you select a category from the dropdown, the product gets
-              that category&apos;s id automatically.
-            </p>
-            <p>
-              When you type a new category name, the app first creates a
-              category via <code>POST /category</code> and then uses the
-              returned id for <code>POST /products</code>.
-            </p>
+
+        {/* Image well */}
+        <div className="rounded-2xl bg-gray-50 p-5 flex justify-center items-center">
+          <div className="relative mx-auto h-[220px] w-[260px] sm:w-[460px]">
+            
+              <Image
+                src="/assets/images/vegis.png"
+                alt="vegis image"
+                fill
+                className="object-contain drop-shadow-[0_8px_14px_rgba(0,0,0,0.12)]"
+                sizes="360px"
+              />
+            
           </div>
+        </div>
+
         </form>
       </section>
     </main>
