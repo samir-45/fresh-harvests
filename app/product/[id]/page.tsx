@@ -24,26 +24,34 @@ export default function ProductDetailsPage() {
   //   useGetProductsQuery({ page: 1, limit: 1000 });
 
   const { data: allProducts = [] } = useGetAllProductsQuery({ page: 1, limit: 1000 });
-  const allRes = { data: { data: allProducts } }; // mock the response shape
+
 
   const product = productRes?.data;
 
-    console.log("getProducts response:", allRes);
+    // console.log("getProducts response:", allRes);
 
   // FIX: allRes.data is ProductsListPayload, products array is inside .data
-  const all: Product[] = (allRes?.data?.data ?? []) as Product[];
+  // const all: Product[] = (allRes?.data?.data ?? []) as Product[];
 
-  const related: Product[] = useMemo(() => {
-    if (!product) return [];
-    return all
-      .filter((p) => p.categoryId === product.categoryId)
-      .filter((p) => p.id !== product.id)
+  // const related: Product[] = useMemo(() => {
+  //   if (!product) return [];
+  //   return all
+  //     .filter((p) => p.categoryId === product.categoryId)
+  //     .filter((p) => p.id !== product.id)
+  //     .slice(0, 4);
+  // }, [all, product]);
+
+    const related = useMemo(() => {
+    if (!productRes?.data) return [];
+    return allProducts
+      .filter((p) => p.categoryId === productRes.data.categoryId)
+      .filter((p) => p.id !== productRes.data.id)
       .slice(0, 4);
-  }, [all, product]);
+  }, [allProducts, productRes]);
 
 
 
-  const showRelated = related.length ? related : all.slice(0, 4);
+  const showRelated = related.length ? related : allProducts.slice(0, 4);
 
   return (
     <main className="min-h-screen bg-[#f6f7f4]">
