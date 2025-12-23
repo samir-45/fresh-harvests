@@ -55,7 +55,7 @@ export default function CartPage() {
                     />
                     <button
                       onClick={() => dispatch(removeFromCart(product.id))}
-                      className="text-sm text-red-500"
+                      className="btn btn-soft btn-error"
                     >
                       Remove
                     </button>
@@ -75,7 +75,7 @@ export default function CartPage() {
                 onClick={() => dispatch(clearCart())}
                 className="rounded-lg bg-green-700 px-6 py-2 text-sm font-medium text-white"
               >
-                Checkout (dummy)
+                Checkout
               </button>
             </div>
           </>

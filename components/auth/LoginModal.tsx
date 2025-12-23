@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { useEffect, useId, useState } from "react";
-import { useLoginMutation } from "@/store/services/api";
+import { useLoginMutation, useLazyGetUsersQuery } from "@/store/services/api";
 import { useAppDispatch } from "@/store/hooks";
-import { setToken } from "@/store/features/auth/authSlice";
+import { setAuth, setToken, type Role } from "@/store/features/auth/authSlice";
 
 type Props = {
   open: boolean;
@@ -13,7 +13,6 @@ type Props = {
 };
 
 function EyeIcon({ open }: { open: boolean }) {
-  // simple inline svg (no dependency)
   return open ? (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
@@ -28,10 +27,7 @@ function EyeIcon({ open }: { open: boolean }) {
   ) : (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M3 3l18 18" stroke="#6B7280" strokeWidth="2" strokeLinecap="round" />
-      <path
-        d="M10.6 10.6a2.5 2.5 0 0 0 3.3 3.3"
-        stroke="#6B7280" strokeWidth="2" strokeLinecap="round"
-      />
+      <path d="M10.6 10.6a2.5 2.5 0 0 0 3.3 3.3" stroke="#6B7280" strokeWidth="2" strokeLinecap="round" />
       <path
         d="M6.5 6.9C4.2 8.6 2.8 12 2.8 12s3.5 7 9.2 7c1.6 0 3-.3 4.2-.9"
         stroke="#6B7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
@@ -47,6 +43,7 @@ function EyeIcon({ open }: { open: boolean }) {
 export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
   const dispatch = useAppDispatch();
   const [login, { isLoading }] = useLoginMutation();
+  const [triggerUsers] = useLazyGetUsersQuery();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -56,7 +53,6 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
 
   const dialogId = useId().replace(/:/g, "_");
 
-  // open/close <dialog> based on `open`
   useEffect(() => {
     const el = document.getElementById(dialogId) as HTMLDialogElement | null;
     if (!el) return;
@@ -73,7 +69,23 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
       const res = await login({ email, password }).unwrap();
       const token = res.data?.token;
       if (!token) throw new Error("Token missing");
+
+      // Optional but useful: store token first so any authenticated /users call works
       dispatch(setToken(token));
+
+      // Fetch all users then find me by email
+      const usersRes = await triggerUsers({ page: 1, limit: 1000 }).unwrap(); // [web:610]
+      const users = (usersRes?.data?.data ?? []) as Array<{ email?: string; role?: Role }>;
+
+      const me = users.find(
+        (u) => (u.email ?? "").toLowerCase() === email.toLowerCase()
+      );
+
+      const role = (me?.role ?? "USER") as Role;
+
+      // Save token + email + role together
+      dispatch(setAuth({ token, email, role }));
+
       onClose();
     } catch (error: any) {
       setErr(error?.data?.message || "Login failed");
@@ -83,7 +95,6 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
   return (
     <dialog id={dialogId} className="modal">
       <div className="modal-box w-[92vw] max-w-[520px] rounded-2xl p-6 sm:p-8">
-        {/* close */}
         <button
           type="button"
           onClick={onClose}
@@ -93,23 +104,14 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
           ✕
         </button>
 
-        <h2 className="text-center text-3xl font-extrabold text-[#1B2032]">
-          Login
-        </h2>
+        <h2 className="text-center text-3xl font-extrabold text-[#1B2032]">Login</h2>
 
         <form onSubmit={onSubmit} className="mt-7 space-y-5">
-          {/* email */}
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label className="mb-2 block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
-              className="
-                h-12 w-full rounded-xl border border-gray-200 bg-white
-                px-4 text-sm text-gray-900 outline-none
-                focus:border-orange-500
-              "
+              className="h-12 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm text-gray-900 outline-none focus:border-orange-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
@@ -118,27 +120,18 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
             />
           </div>
 
-          {/* password with toggle */}
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Password
-            </label>
-
+            <label className="mb-2 block text-sm font-medium text-gray-700">Password</label>
             <div className="relative">
               <input
                 type={showPass ? "text" : "password"}
-                className="
-                  h-12 w-full rounded-xl border border-gray-200 bg-white
-                  px-4 pr-12 text-sm text-gray-900 outline-none
-                  focus:border-orange-500
-                "
+                className="h-12 w-full rounded-xl border border-gray-200 bg-white px-4 pr-12 text-sm text-gray-900 outline-none focus:border-orange-500"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 autoComplete="current-password"
                 required
               />
-
               <button
                 type="button"
                 onClick={() => setShowPass((s) => !s)}
@@ -150,7 +143,6 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
             </div>
           </div>
 
-          {/* remember + forgot */}
           <div className="flex items-center justify-between">
             <label className="flex cursor-pointer items-center gap-2 text-sm text-gray-600">
               <input
@@ -165,9 +157,7 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
             <button
               type="button"
               className="text-sm font-semibold text-gray-700 underline underline-offset-2"
-              onClick={() => {
-                // later route /forgot-password or open modal
-              }}
+              onClick={() => {}}
             >
               Forgot Password
             </button>
@@ -175,19 +165,13 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
 
           {err && <p className="text-sm text-red-600">{err}</p>}
 
-          {/* login button */}
           <button
             disabled={isLoading}
-            className="
-              h-12 w-full rounded-xl bg-orange-500 text-sm font-semibold text-white
-              shadow-[0_10px_26px_rgba(249,115,22,0.35)]
-              hover:bg-orange-600 disabled:opacity-60
-            "
+            className="h-12 w-full rounded-xl bg-orange-500 text-sm font-semibold text-white shadow-[0_10px_26px_rgba(249,115,22,0.35)] hover:bg-orange-600 disabled:opacity-60"
           >
             {isLoading ? "Logging in..." : "Login"}
           </button>
 
-          {/* divider */}
           <div className="relative py-2">
             <div className="h-px w-full bg-gray-200" />
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 text-xs text-gray-500">
@@ -195,20 +179,13 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
             </div>
           </div>
 
-          {/* social buttons */}
           <div className="grid grid-cols-2 gap-4">
             <button
               type="button"
               className="h-12 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-800 hover:bg-gray-50"
-              onClick={() => {}}
             >
               <span className="flex items-center justify-center gap-2">
-                <Image
-                  src="/assets/icons/google.svg"
-                  alt="Google"
-                  width={20}
-                  height={20}
-                />
+                <Image src="/assets/icons/google.svg" alt="Google" width={20} height={20} />
                 Google
               </span>
             </button>
@@ -216,21 +193,14 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
             <button
               type="button"
               className="h-12 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-800 hover:bg-gray-50"
-              onClick={() => {}}
             >
               <span className="flex items-center justify-center gap-2">
-                <Image
-                  src="/assets/icons/facebook.svg"
-                  alt="Facebook"
-                  width={20}
-                  height={20}
-                />
+                <Image src="/assets/icons/facebook.svg" alt="Facebook" width={20} height={20} />
                 Facebook
               </span>
             </button>
           </div>
 
-          {/* bottom text */}
           <p className="pt-2 text-center text-sm text-gray-600">
             Don&apos;t have an account?{" "}
             <button
@@ -246,7 +216,7 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
           </p>
         </form>
       </div>
-      {/* backdrop */}
+
       <form method="dialog" className="modal-backdrop">
         <button onClick={onClose}>close</button>
       </form>

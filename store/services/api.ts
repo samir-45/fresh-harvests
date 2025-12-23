@@ -97,6 +97,14 @@ export const api = createApi({
       query: () => "/category",
       providesTags: ["Categories"],
     }),
+    // get all user
+    getUsers: builder.query<any, { page?: number; limit?: number }>({
+      query: ({ page = 1, limit = 1000 } = {}) => ({
+        url: `/users?page=${page}&limit=${limit}`,
+        method: "GET",
+      }),
+    }),
+
 
     // Admin data
     // Create category (admin)
@@ -146,6 +154,7 @@ export const {
   useGetProductsQuery,
   useGetProductByIdQuery,
   useGetCategoriesQuery,
+  useLazyGetUsersQuery,
   useAddCategoryMutation,
   useAddProductMutation,
   useUpdateProductByIdMutation,

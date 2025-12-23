@@ -7,7 +7,7 @@ const Footer = () => {
         <div>
             <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10 ">
 
-                <nav className='h-full flex flex-col justify-between w-11/12 mx-auto'>
+                <nav className='h-full flex flex-col justify-between'>
                     {/* logo */}
                     <div className="navbar-start w-full">
                         <Link href="/" className="text-xl gap-2 flex items-center w-full">
@@ -28,10 +28,10 @@ const Footer = () => {
                     <div>
                         <p className="text-fresh-dark font-semibold">Download App:</p>
                         {/* App Store buttons */}
-                        <div className="mt-5 flex flex-row text-white md:justify-start items-center gap-4">
+                        <div className="mt-5 flex flex-col sm:flex-row text-white md:justify-start items-center gap-4">
                             <Link
                                 href="#"
-                                className="flex items-center gap-2 bg-black px-3 py-2 rounded-lg  "
+                                className="flex w-full sm:w-fit items-center gap-2 bg-black px-3 py-2 rounded-lg  "
                             >
                                 <Image
                                     src="/assets/icons/Apple.svg"

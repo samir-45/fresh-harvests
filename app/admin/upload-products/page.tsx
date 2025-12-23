@@ -1,14 +1,25 @@
 "use client";
 
 import Navbar from "@/components/layout/Navbar";
+import { selectIsAdmin } from "@/store/features/auth/authSlice";
+import { useAppSelector } from "@/store/hooks";
 import {
   useAddProductMutation,
   useAddCategoryMutation,
   useGetCategoriesQuery,
 } from "@/store/services/api";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function AdminUploadProductsPage() {
+
+  const router = useRouter();
+  const isAdmin = useAppSelector(selectIsAdmin);
+
+  useEffect(() => {
+    if (!isAdmin) router.push("/");
+  }, [isAdmin, router]);
+
   const { data: catRes, isLoading: catsLoading } = useGetCategoriesQuery();
   const categories = catRes?.data ?? [];
 
@@ -169,7 +180,7 @@ export default function AdminUploadProductsPage() {
                   onChange={(e) => setSelectedCategoryId(e.target.value)}
                   className="w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-green-600"
                 >
-                  <option value="">-- Select --</option>
+                  <option value="">Select</option>
                   {categories.map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.categoryName}
