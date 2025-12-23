@@ -5,59 +5,46 @@ import { useParams } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import ProductCard from "@/components/product/ProductCard";
 import {
+  useGetAllProductsQuery,
   useGetProductByIdQuery,
-  useGetProductsQuery,
+  // useGetProductsQuery,
   type Product,
 } from "@/store/services/api";
-import { skipToken } from "@reduxjs/toolkit/query";
+import { skipToken } from "@reduxjs/toolkit/query"; // conditional skip [web:656]
 
 export default function ProductDetailsPage() {
-  const { id } = useParams<{ id?: string }>();
+  const { id } = useParams<{ id?: string }>(); // client-only hook [web:759]
 
-  // -------------------------------
-  // Single product
-  // -------------------------------
   const productArg = typeof id === "string" && id ? id : skipToken;
-  const {
-    data: productRes,
-    isLoading: pLoading,
-    error: pError,
-  } = useGetProductByIdQuery(productArg);
+  const { data: productRes, isLoading: pLoading, error: pError } =
+    useGetProductByIdQuery(productArg);
 
-  const product = productRes?.data ?? null;
+  // Your endpoint expects an arg -> pass it (page/limit)
+  // const { data: allRes, isLoading: listLoading, error: listError } =
+  //   useGetProductsQuery({ page: 1, limit: 1000 });
 
-  // -------------------------------
-  // All products
-  // -------------------------------
-  const {
-    data: allRes,
-    isLoading: listLoading,
-    error: listError,
-  } = useGetProductsQuery({ page: 1, limit: 1000 });
+  const { data: allProducts = [] } = useGetAllProductsQuery({ page: 1, limit: 1000 });
+  const allRes = { data: { data: allProducts } }; // mock the response shape
 
-  // ✅ IMPORTANT FIX
-  // allRes.data = ProductsListPayload
-  // Products array is inside payload.data
-  const productsPayload = allRes?.data;
-  const all: Product[] = productsPayload?.data ?? [];
+  const product = productRes?.data;
 
-  // -------------------------------
-  // Related products
-  // -------------------------------
-  const related = useMemo<Product[]>(() => {
+    console.log("getProducts response:", allRes);
+
+  // FIX: allRes.data is ProductsListPayload, products array is inside .data
+  const all: Product[] = (allRes?.data?.data ?? []) as Product[];
+
+  const related: Product[] = useMemo(() => {
     if (!product) return [];
-
     return all
       .filter((p) => p.categoryId === product.categoryId)
       .filter((p) => p.id !== product.id)
       .slice(0, 4);
   }, [all, product]);
 
+
+
   const showRelated = related.length ? related : all.slice(0, 4);
 
-  // -------------------------------
-  // UI
-  // -------------------------------
   return (
     <main className="min-h-screen bg-[#f6f7f4]">
       <Navbar />
@@ -73,10 +60,7 @@ export default function ProductDetailsPage() {
               <div className="rounded-2xl bg-white p-6">
                 <div className="flex items-center justify-center">
                   <img
-                    src={
-                      product.images?.[0] ||
-                      "/assets/images/placeholder.png"
-                    }
+                    src={product.images?.[0] || "/assets/images/placeholder.png"}
                     alt={product.productName}
                     className="max-h-[320px] object-contain"
                   />
@@ -96,9 +80,7 @@ export default function ProductDetailsPage() {
                   ${product.price}/kg
                 </div>
 
-                <p className="mt-4 text-sm text-gray-600">
-                  {product.description}
-                </p>
+                <p className="mt-4 text-sm text-gray-600">{product.description}</p>
 
                 <div className="mt-6 flex gap-4">
                   <button className="rounded-lg border px-5 py-3 text-sm">

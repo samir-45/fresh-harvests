@@ -117,7 +117,13 @@ export const api = createApi({
       query: ({ page = 1, limit = 10 } = {}) => `/products?page=${page}&limit=${limit}`,
       providesTags: ["Products"],
     }),
-    
+
+    getAllProducts: builder.query<Product[], { page: number; limit: number }>({
+      query: ({ page, limit }) => `/products?page=${page}&limit=${limit}`,
+      transformResponse: (res: any) => res?.data?.data ?? res?.data ?? res ?? [],
+    }),
+
+
     getProductById: builder.query<ApiResponse<ProductFromApi>, string>({
       query: (id) => `/products/${id}`,
     }),
@@ -183,6 +189,7 @@ export const {
   useGetProductsQuery,
   useGetProductByIdQuery,
   useGetCategoriesQuery,
+  useGetAllProductsQuery,
   useLazyGetUsersQuery,
   useAddCategoryMutation,
   useAddProductMutation,
