@@ -41,11 +41,24 @@ export default function ProductDetailsPage() {
   //     .slice(0, 4);
   // }, [all, product]);
 
-    const related = useMemo(() => {
+  //   const related = useMemo(() => {
+  //   if (!productRes?.data) return [];
+  //   return allProducts
+  //     .filter((p) => p.categoryId === productRes.data.categoryId)
+  //     .filter((p) => p.id !== productRes.data.id)
+  //     .slice(0, 4);
+  // }, [allProducts, productRes]);
+
+  const related = useMemo(() => {
     if (!productRes?.data) return [];
-    return allProducts
-      .filter((p) => p.categoryId === productRes.data.categoryId)
-      .filter((p) => p.id !== productRes.data.id)
+    
+    // SAFEGUARD: Ensure we are filtering an array, not the payload object
+    // If your array is named differently in the response (e.g. .result), change .data below
+    const productsArray = (allProducts as any)?.data || []; 
+
+    return productsArray
+      .filter((p: Product) => p.categoryId === productRes.data.categoryId)
+      .filter((p: Product) => p.id !== productRes.data.id)
       .slice(0, 4);
   }, [allProducts, productRes]);
 
