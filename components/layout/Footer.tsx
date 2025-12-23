@@ -5,9 +5,9 @@ import React from 'react'
 const Footer = () => {
     return (
         <div>
-            <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
+            <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10 ">
 
-                <nav className='h-full flex flex-col justify-between'>
+                <nav className='h-full flex flex-col justify-between w-11/12 mx-auto'>
                     {/* logo */}
                     <div className="navbar-start w-full">
                         <Link href="/" className="text-xl gap-2 flex items-center w-full">
