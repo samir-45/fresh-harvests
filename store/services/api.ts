@@ -113,10 +113,11 @@ export const api = createApi({
     //   query: (id) => `/products/${id}`,
     // }),
 
-    getProducts: builder.query<ApiResponse<ProductsListPayload>, { page?: number; limit?: number }>({
-      query: ({ page = 1, limit = 10 } = {}) => `/products?page=${page}&limit=${limit}`,
-      providesTags: ["Products"],
-    }),
+getProducts: builder.query<ApiResponse<ProductFromApi[]>, { page?: number; limit?: number }>({
+  query: ({ page = 1, limit = 10 } = {}) => `/products?page=${page}&limit=${limit}`,
+  providesTags: ["Products"],
+}),
+
 
     getAllProducts: builder.query<ProductFromApi[], { page: number; limit: number }>({
       query: ({ page, limit }) => `/products?page=${page}&limit=${limit}`,

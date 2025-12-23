@@ -10,7 +10,8 @@ export default function FeaturedProductsSection() {
   const isHome = pathname === "/";
 
   const { data: catRes } = useGetCategoriesQuery();
-  const { data: prodRes, isLoading } = useGetProductsQuery();
+const { data: prodRes, isLoading } = useGetProductsQuery({ page: 1, limit: 1000 });
+
 
   const categories = catRes?.data ?? [];
   const products = prodRes?.data ?? [];
