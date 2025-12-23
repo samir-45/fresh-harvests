@@ -19,10 +19,8 @@ export default function ProductDetailsPage() {
   const product = productRes?.data ?? null;
 
   // 🔥 NOW THIS IS Product[] | undefined
-  const { data: allProducts = [] } = useGetAllProductsQuery({
-    page: 1,
-    limit: 1000,
-  });
+const { data: allProducts = [] } = useGetAllProductsQuery({ page: 1, limit: 1000 });
+
 
   const related = useMemo<Product[]>(() => {
     if (!product) return [];

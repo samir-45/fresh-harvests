@@ -118,10 +118,11 @@ export const api = createApi({
       providesTags: ["Products"],
     }),
 
-    getAllProducts: builder.query<Product[], { page: number; limit: number }>({
+    getAllProducts: builder.query<ProductFromApi[], { page: number; limit: number }>({
       query: ({ page, limit }) => `/products?page=${page}&limit=${limit}`,
-      transformResponse: (res: any) => res?.data?.data ?? res?.data ?? res ?? [],
+      transformResponse: (res: ApiResponse<ProductsListPayload>) => res.data.data,
     }),
+
 
 
     getProductById: builder.query<ApiResponse<ProductFromApi>, string>({
