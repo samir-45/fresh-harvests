@@ -103,7 +103,7 @@ export default function ProductDetailsPage() {
                 </h2>
               </div>
 
-              {listLoading ? (
+              {/* {listLoading ? (
                 <div className="mt-8 text-center text-sm text-gray-500">
                   Loading related...
                 </div>
@@ -117,7 +117,14 @@ export default function ProductDetailsPage() {
                     <ProductCard key={p.id} product={p} />
                   ))}
                 </div>
-              )}
+              )} */}
+
+                <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+                  {showRelated.map((p) => (
+                    <ProductCard key={p.id} product={p} />
+                  ))}
+                </div>
+
             </section>
           </>
         )}
