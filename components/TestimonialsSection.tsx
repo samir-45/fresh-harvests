@@ -47,7 +47,7 @@ export default function TestimonialsSection() {
           Testimonial
         </div>
 
-        <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-[#1B2032]">
+        <h2 className="mt-4 text-4xl font-semibold tracking-tight text-[#1B2032]">
           What Our Customers Say
         </h2>
 

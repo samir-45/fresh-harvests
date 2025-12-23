@@ -38,7 +38,7 @@ export default function AdminUploadProductsPage() {
     try {
       let categoryIdToUse = selectedCategoryId;
 
-      // যদি নতুন category নাম দেওয়া থাকে, আগে category তৈরি কর
+      // If no category has pre made, new category we can make
       if (newCategoryName.trim()) {
         const catRes = await addCategory({
           categoryName: newCategoryName.trim(),
@@ -60,7 +60,7 @@ export default function AdminUploadProductsPage() {
         categoryId: categoryIdToUse,
       }).unwrap();
 
-      // ফর্ম reset
+      // form reset
       setProductName("");
       setDescription("");
       setPrice("");

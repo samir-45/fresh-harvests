@@ -1,4 +1,5 @@
 import AboutSection from "@/components/AboutSection";
+import BlogSection from "@/components/BlogSection";
 import HeroSection from "@/components/layout/HeroSection";
 import FeaturedProductsSection from "@/components/product/FeaturedProductsSection";
 import SpecialOfferSection from "@/components/SpecialOfferSection";
@@ -17,6 +18,8 @@ export default function HomePage() {
       <SpecialOfferSection></SpecialOfferSection>
 
       <TestimonialsSection></TestimonialsSection>
+
+      <BlogSection></BlogSection>
     </main>
   );
 }
