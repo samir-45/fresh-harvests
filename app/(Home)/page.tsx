@@ -2,6 +2,7 @@ import AboutSection from "@/components/AboutSection";
 import HeroSection from "@/components/layout/HeroSection";
 import FeaturedProductsSection from "@/components/product/FeaturedProductsSection";
 import SpecialOfferSection from "@/components/SpecialOfferSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 
 export default function HomePage() {
   return (
@@ -14,6 +15,8 @@ export default function HomePage() {
       <AboutSection></AboutSection>
 
       <SpecialOfferSection></SpecialOfferSection>
+
+      <TestimonialsSection></TestimonialsSection>
     </main>
   );
 }

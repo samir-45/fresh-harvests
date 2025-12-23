@@ -5,7 +5,7 @@ import Image from "next/image";
 function TimeBox({ value, label }: { value: string; label: string }) {
     return (
         <div className="w-[78px] rounded-xl border border-gray-200 bg-white/85 px-3 py-3 text-center shadow-sm backdrop-blur">
-            <div className="text-[26px] font-extrabold leading-none text-[#1B2032]">
+            <div className="text-[26px] font-semibold leading-none text-[#1B2032]">
                 {value}
             </div>
             <div className="mt-1 text-[12px] text-gray-500">{label}</div>
@@ -59,11 +59,11 @@ export default function SpecialOfferSection() {
                 <div className="pointer-events-none absolute top-3 right-[26%] h-20 w-20 rotate-[-12deg]">
                     <Image src="/assets/images/leaf-1.png" alt="" fill className="object-contain" sizes="40px" />
                 </div>
-                <div className="pointer-events-none absolute -bottom-12 -left-10 h-28 w-28 rotate-[-12deg] opacity-90">
+                <div className="pointer-events-none absolute -bottom-4 -left-5 h-28 w-28 opacity-90">
                     <Image src="/assets/images/leaf-3.png" alt="" fill className="object-contain" sizes="112px" />
                 </div>
-                <div className="pointer-events-none absolute -bottom-14 -right-10 h-32 w-32 rotate-[10deg] opacity-90">
-                    <Image src="/assets/images/leaf-2.png" alt="" fill className="object-contain" sizes="128px" />
+                <div className="pointer-events-none absolute -bottom-1 -right-10 h-32 w-32  opacity-90">
+                    <Image src="/assets/images/leaf-4.png" alt="" fill className="object-contain" sizes="128px" />
                 </div>
 
                 {/* CONTENT */}
@@ -91,7 +91,7 @@ export default function SpecialOfferSection() {
 
                         <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#1F7A3E] px-6 py-3 text-white shadow-sm">
                             <span className="text-sm font-semibold">CODE :</span>
-                            <span className="text-sm font-extrabold text-[#F5C542]">FRESH28</span>
+                            <span className="text-sm font-semibold text-[#F5C542]">FRESH28</span>
                         </div>
                     </div>
 
