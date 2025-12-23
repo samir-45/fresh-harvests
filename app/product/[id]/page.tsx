@@ -9,28 +9,23 @@ import {
   useGetProductsQuery,
   type Product,
 } from "@/store/services/api";
-import { skipToken } from "@reduxjs/toolkit/query"; // skip query when arg missing [web:656]
+import { skipToken } from "@reduxjs/toolkit/query"; // conditional skip [web:656]
 
 export default function ProductDetailsPage() {
   const { id } = useParams<{ id?: string }>(); // client-only hook [web:759]
 
-  // Product query: skip when id is missing/invalid [web:656]
   const productArg = typeof id === "string" && id ? id : skipToken;
   const { data: productRes, isLoading: pLoading, error: pError } =
     useGetProductByIdQuery(productArg);
 
-  // Products query: FIX -> pass required arg(s)
-  const {
-    data: allRes,
-    isLoading: listLoading,
-    error: listError,
-  } = useGetProductsQuery({
-    page: 1,
-    limit: 1000,
-  });
+  // Your endpoint expects an arg -> pass it (page/limit)
+  const { data: allRes, isLoading: listLoading, error: listError } =
+    useGetProductsQuery({ page: 1, limit: 1000 });
 
   const product = productRes?.data;
-  const all = allRes?.data ?? [];
+
+  // FIX: allRes.data is ProductsListPayload, products array is inside .data
+  const all: Product[] = (allRes?.data?.data ?? []) as Product[];
 
   const related: Product[] = useMemo(() => {
     if (!product) return [];
@@ -53,7 +48,6 @@ export default function ProductDetailsPage() {
 
         {product && (
           <>
-            {/* Top section */}
             <div className="grid gap-10 md:grid-cols-2">
               <div className="rounded-2xl bg-white p-6">
                 <div className="flex items-center justify-center">
@@ -91,7 +85,6 @@ export default function ProductDetailsPage() {
               </div>
             </div>
 
-            {/* Related products */}
             <section className="mt-12">
               <div className="text-center">
                 <div className="mx-auto inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
