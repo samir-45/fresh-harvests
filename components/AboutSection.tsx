@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function AboutSection() {
     return (
         <section className="mx-auto w-11/12 py-16 pb-24">
-            <div className="grid items-center gap-20 sm:gap-10 lg:grid-cols-2">
+            <div className="grid items-center gap-30 sm:gap-10 lg:grid-cols-2">
                 {/* LEFT: Illustration + overlays */}
                 <div className="relative">
                     {/* main illustration */}

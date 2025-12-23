@@ -83,7 +83,7 @@ export default function Navbar() {
                         <>
                             <Link
                                 href="/admin/upload-products"
-                                className={`px-5 py-1.5  border-[1.4] rounded-sm sm:btn-md ${isHome ? "text-white border-[#FFFFFF]" : "text-black border-black"}`}
+                                className={`px-5 py-1.5 hidden sm:block border-[1.4] rounded-sm sm:btn-md ${isHome ? "text-white border-[#FFFFFF]" : "text-black border-black"}`}
                             >
                                 Admin
                             </Link>
@@ -98,7 +98,7 @@ export default function Navbar() {
                     ) : (
                         <button
                             onClick={() => setLoginOpen(true)}
-                            className={`px-5 py-1.5 cursor-pointer border-[1.4] rounded-sm sm:btn-md ${isHome ? "text-white border-[#FFFFFF]" : "text-black border-black"}`}
+                            className={`px-5 py-1.5 hidden sm:block cursor-pointer border-[1.4] rounded-sm sm:btn-md ${isHome ? "text-white border-[#FFFFFF]" : "text-black border-black"}`}
                         >
                             Sign in
                         </button>
