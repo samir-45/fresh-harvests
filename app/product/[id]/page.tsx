@@ -7,64 +7,45 @@ import ProductCard from "@/components/product/ProductCard";
 import {
   useGetAllProductsQuery,
   useGetProductByIdQuery,
-  // useGetProductsQuery,
   type Product,
 } from "@/store/services/api";
-import { skipToken } from "@reduxjs/toolkit/query"; // conditional skip [web:656]
+import { skipToken } from "@reduxjs/toolkit/query";
 
 export default function ProductDetailsPage() {
-  const { id } = useParams<{ id?: string }>(); // client-only hook [web:759]
+  const { id } = useParams<{ id?: string }>();
 
   const productArg = typeof id === "string" && id ? id : skipToken;
-  const { data: productRes, isLoading: pLoading, error: pError } =
-    useGetProductByIdQuery(productArg);
+  
+  // 1. Get the single product
+  const { 
+    data: productRes, 
+    isLoading: pLoading, 
+    error: pError 
+  } = useGetProductByIdQuery(productArg);
 
-  // Your endpoint expects an arg -> pass it (page/limit)
-  // const { data: allRes, isLoading: listLoading, error: listError } =
-  //   useGetProductsQuery({ page: 1, limit: 1000 });
+  // 2. Get the full list payload
+  // Note: allProducts is the whole object { success: true, data: [...] }
+  const { data: allProducts } = useGetAllProductsQuery({ page: 1, limit: 1000 });
 
-  const { data: allProducts = [] } = useGetAllProductsQuery({ page: 1, limit: 1000 });
-
+  // 3. FIX: Extract the actual array from the payload safely
+  // If allProducts is undefined, fallback to empty array
+  // Use 'any' cast if Typescript is strict about the initial payload type
+  const productsList = (allProducts as any)?.data || [];
 
   const product = productRes?.data;
 
-    // console.log("getProducts response:", allRes);
-
-  // FIX: allRes.data is ProductsListPayload, products array is inside .data
-  // const all: Product[] = (allRes?.data?.data ?? []) as Product[];
-
-  // const related: Product[] = useMemo(() => {
-  //   if (!product) return [];
-  //   return all
-  //     .filter((p) => p.categoryId === product.categoryId)
-  //     .filter((p) => p.id !== product.id)
-  //     .slice(0, 4);
-  // }, [all, product]);
-
-  //   const related = useMemo(() => {
-  //   if (!productRes?.data) return [];
-  //   return allProducts
-  //     .filter((p) => p.categoryId === productRes.data.categoryId)
-  //     .filter((p) => p.id !== productRes.data.id)
-  //     .slice(0, 4);
-  // }, [allProducts, productRes]);
-
+  // 4. Calculate related products using the extracted array
   const related = useMemo(() => {
-    if (!productRes?.data) return [];
+    if (!product) return [];
     
-    // SAFEGUARD: Ensure we are filtering an array, not the payload object
-    // If your array is named differently in the response (e.g. .result), change .data below
-    const productsArray = (allProducts as any)?.data || []; 
-
-    return productsArray
-      .filter((p: Product) => p.categoryId === productRes.data.categoryId)
-      .filter((p: Product) => p.id !== productRes.data.id)
+    return productsList
+      .filter((p: Product) => p.categoryId === product.categoryId)
+      .filter((p: Product) => p.id !== product.id)
       .slice(0, 4);
-  }, [allProducts, productRes]);
+  }, [productsList, product]);
 
-
-
-  const showRelated = related.length ? related : allProducts.slice(0, 4);
+  // 5. FIX: Ensure fallback also uses the array, not the payload object
+  const showRelated = related.length ? related : productsList.slice(0, 4);
 
   return (
     <main className="min-h-screen bg-[#f6f7f4]">
@@ -124,28 +105,11 @@ export default function ProductDetailsPage() {
                 </h2>
               </div>
 
-              {/* {listLoading ? (
-                <div className="mt-8 text-center text-sm text-gray-500">
-                  Loading related...
-                </div>
-              ) : listError ? (
-                <div className="mt-8 text-center text-sm text-gray-500">
-                  Failed to load related products.
-                </div>
-              ) : (
-                <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-                  {showRelated.map((p) => (
-                    <ProductCard key={p.id} product={p} />
-                  ))}
-                </div>
-              )} */}
-
-                <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-                  {showRelated.map((p) => (
-                    <ProductCard key={p.id} product={p} />
-                  ))}
-                </div>
-
+              <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+                {showRelated.map((p: Product) => (
+                  <ProductCard key={p.id} product={p} />
+                ))}
+              </div>
             </section>
           </>
         )}
