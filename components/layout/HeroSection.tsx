@@ -32,24 +32,22 @@ const HeroSection = () => {
             <section className="w-11/12 mx-auto px-4 sm:px-8 py-12 z-10">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
 
-                    {/* --- Left Column (Text Content) --- */}
+                    {/* --- Left Column --- */}
                     <div className="md:col-span-7 lg:col-span-6 sm:pb-40">
-                        {/* Welcome Badge */}
+
                         <span className="inline-block bg-[#759b3f27]  text-[#749B3F] font-bold px-4 py-1.5 rounded-lg mb-6">
                             Welcome to Fresh Harvest
                         </span>
 
-                        {/* Main Heading */}
                         <h1 className="text-5xl relative lg:text-7xl font-bold text-fresh-dark leading-[1.1] mb-6">
                             Fresh Fruits and Vegetables
                         </h1>
 
-                        {/* Subtext */}
                         <p className="text-fresh-gray text-lg relative max-w-lg leading-relaxed">
                             At Fresh Harvests, we are passionate about providing you with the freshest and most flavorful fruits and vegetables.
                         </p>
 
-                        {/* CTA Button & Special Offer Container */}
+                        {/* Special Offer Container */}
                         <div className="relative mb-16 mt-8">
                             <button className="bg-[#FF6A1A] text-white text-lg font-bold px-10 py-4 rounded-xl shadow-lg shadow-fresh-orange/30 hover:bg-fresh-orange-dark transition-transform hover:-translate-y-1">
                                 Shop Now

@@ -59,7 +59,7 @@ export default function FeaturedProductsSection() {
         </div>
       </div>
 
-      <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-4">
         {isLoading
           ? Array.from({ length: isHome ? 8 : 12 }).map((_, i) => (
               <div key={i} className="h-[260px] rounded-2xl bg-gray-100" />

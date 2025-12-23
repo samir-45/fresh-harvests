@@ -7,7 +7,7 @@ export default function AboutSection() {
                 {/* LEFT: Illustration + overlays */}
                 <div className="relative">
                     {/* main illustration */}
-                    <div className="relative mx-auto aspect-[6/5] w-full max-w-[560px]">
+                    <div className="relative mx-auto aspect-[6/5] w-full max-w-11/12">
                         <Image
                             src="/assets/images/grocery-boy.png"   // <-- তোমার illustration path দাও
                             alt="Fresh Harvests about illustration"
@@ -20,9 +20,6 @@ export default function AboutSection() {
                     {/* top badge: Fresh Harvests */}
                     <div className="absolute left-[52%] top-[58%] -translate-x-1/2 rounded-xl border border-gray-200 bg-white px-4 py-2 shadow-[0_10px_30px_rgba(15,23,42,0.10)]">
                         <div className="flex items-center gap-2">
-                            {/* <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[#EAF3DF]">
-                <span className="h-3 w-3 rounded-sm bg-[#74A23A]" />
-              </span> */}
                             <Image
                                 src="/assets/images/Logo.png"
                                 alt="Fresh Harvests Logo"
@@ -36,14 +33,14 @@ export default function AboutSection() {
                     </div>
 
                     {/* floating mini product card */}
-                    <div className="absolute left-[62%] top-[70%] w-[170px] rounded-2xl border border-gray-200 bg-white p-3 shadow-[0_14px_40px_rgba(15,23,42,0.12)]">
+                    <div className="absolute left-[60%] sm:left-[62%] top-[70%] w-4/12 rounded-2xl border border-gray-200 bg-white p-3 shadow-[0_14px_40px_rgba(15,23,42,0.12)]">
                         <div className="rounded-2xl bg-gray-50 p-3">
                             <div className="relative mx-auto h-[70px] w-[110px]">
                                 <Image
                                     src="/assets/images/letus.png"
                                     alt="letus"
                                     fill
-                                    className="object-contain"
+                                    className="object-contain object-center"
                                     sizes="110px"
                                 />
                             </div>
