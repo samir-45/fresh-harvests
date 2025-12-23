@@ -1,7 +1,11 @@
 "use client";
 
 import Navbar from "@/components/layout/Navbar";
-import { ProductFromApi, useGetProductByIdQuery, useGetProductsQuery } from "@/store/services/api";
+import {
+  ProductFromApi,
+  useGetAllProductsQuery,
+  useGetProductByIdQuery,
+} from "@/store/services/api";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -16,12 +20,8 @@ export default function ProductDetailsPage() {
     const { data: pRes, isLoading: pLoading } = useGetProductByIdQuery(id);
     const product = pRes?.data;
 
-    const { data: listRes, isLoading: listLoading } = useGetProductsQuery({
-        page: 1,
-        limit: 1000,
-    });
-
-    const allProducts = listRes?.data ?? [];
+const { data: allProducts = [], isLoading: listLoading } =
+  useGetAllProductsQuery({ page: 1, limit: 1000 });
 
     const related = useMemo(() => {
         if (!product) return [];
