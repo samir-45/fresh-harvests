@@ -9,6 +9,7 @@ import LoginModal from "@/components/auth/LoginModal";
 import RegisterModal from "@/components/auth/RegisterModal";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logout, selectIsAdmin } from "@/store/features/auth/authSlice";
+import { NavLink } from "../NavLink";
 
 export default function Navbar() {
   const token = useAppSelector((s) => s.auth.token);
@@ -52,10 +53,10 @@ export default function Navbar() {
         {/* menu */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            <li><Link href="/">Home</Link></li>
-            <li><Link href="/shop">Shop</Link></li>
-            <li><a href="#about">About us</a></li>
-            <li><a href="#blog">Blog</a></li>
+            <li><NavLink href="/">Home</NavLink></li>
+            <li><NavLink href="/shop">Shop</NavLink></li>
+            <li><NavLink href="/#about">About us</NavLink></li>
+            <li><NavLink href="/#blog">Blog</NavLink></li>
           </ul>
         </div>
 

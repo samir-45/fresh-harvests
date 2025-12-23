@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { Product } from "@/store/services/api";
 import { useAppDispatch } from "@/store/hooks";
 import { addToCart } from "@/store/features/cart/cartSlice";
+import Link from "next/link";
 
 export default function ProductCard({ product }: { product: Product }) {
   const dispatch = useAppDispatch();
@@ -16,22 +17,27 @@ export default function ProductCard({ product }: { product: Product }) {
         p-3 shadow-[0_8px_24px_rgba(15,23,42,0.06)]
       "
     >
-      {/* Image well */}
-      <div className="rounded-2xl bg-gray-50 p-5">
-        <div className="relative mx-auto h-[120px] w-[160px]">
-          {img ? (
-            <Image
-              src={img}
-              alt={product.productName}
-              fill
-              className="object-contain drop-shadow-[0_8px_14px_rgba(0,0,0,0.12)]"
-              sizes="160px"
-            />
-          ) : (
-            <div className="h-full w-full rounded-xl bg-gray-100" />
-          )}
+
+      <Link href={`/products/${product.id}`} className="block">
+        {/* Image well */}
+        <div className="rounded-2xl bg-gray-50 p-5">
+          <div className="relative mx-auto h-[120px] w-[160px]">
+            {img ? (
+              <Image
+                src={img}
+                alt={product.productName}
+                fill
+                className="object-contain drop-shadow-[0_8px_14px_rgba(0,0,0,0.12)]"
+                sizes="160px"
+              />
+            ) : (
+              <div className="h-full w-full rounded-xl bg-gray-100" />
+            )}
+          </div>
         </div>
-      </div>
+      </Link>
+
+
 
       {/* Text */}
       <div className="mt-4 text-center">

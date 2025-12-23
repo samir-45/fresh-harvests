@@ -25,7 +25,26 @@ export type Category = {
   createdAt: string;
   updatedAt: string;
 };
+// ----------------------------------------------------
+export type Meta = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+};
 
+export type ProductFromApi = Product & {
+  category?: {
+    id: string;
+    categoryName: string;
+  };
+};
+
+export type ProductsListPayload = {
+  data: ProductFromApi[];
+  meta: Meta;
+};
+// -----------------------------------------------------
 export type LoginReq = { email: string; password: string };
 export type LoginRes = ApiResponse<{ token: string }>;
 
@@ -86,13 +105,23 @@ export const api = createApi({
     }),
 
     // Public data
-    getProducts: builder.query<ApiResponse<Product[]>, void>({
-      query: () => "/products",
+    // getProducts: builder.query<ApiResponse<Product[]>, void>({
+    //   query: () => "/products",
+    //   providesTags: ["Products"],
+    // }),
+    // getProductById: builder.query<ApiResponse<Product>, string>({
+    //   query: (id) => `/products/${id}`,
+    // }),
+
+    getProducts: builder.query<ApiResponse<ProductsListPayload>, { page?: number; limit?: number }>({
+      query: ({ page = 1, limit = 10 } = {}) => `/products?page=${page}&limit=${limit}`,
       providesTags: ["Products"],
     }),
-    getProductById: builder.query<ApiResponse<Product>, string>({
+    
+    getProductById: builder.query<ApiResponse<ProductFromApi>, string>({
       query: (id) => `/products/${id}`,
     }),
+
     getCategories: builder.query<ApiResponse<Category[]>, void>({
       query: () => "/category",
       providesTags: ["Categories"],
