@@ -9,24 +9,25 @@ import {
   useGetProductsQuery,
   type Product,
 } from "@/store/services/api";
-import { skipToken } from "@reduxjs/toolkit/query"; // conditional fetching helper [web:656]
+import { skipToken } from "@reduxjs/toolkit/query"; // skip query when arg missing [web:656]
 
 export default function ProductDetailsPage() {
-  const params = useParams<{ id?: string }>(); // useParams is client-only [web:759]
-  const id = params?.id;
+  const { id } = useParams<{ id?: string }>(); // client-only hook [web:759]
 
-  // If id is missing, skip the query (prevents calling endpoint with undefined) [web:656]
-  const {
-    data: productRes,
-    isLoading: productLoading,
-    error: productError,
-  } = useGetProductByIdQuery(typeof id === "string" && id ? id : (skipToken as any));
+  // Product query: skip when id is missing/invalid [web:656]
+  const productArg = typeof id === "string" && id ? id : skipToken;
+  const { data: productRes, isLoading: pLoading, error: pError } =
+    useGetProductByIdQuery(productArg);
 
+  // Products query: FIX -> pass required arg(s)
   const {
     data: allRes,
     isLoading: listLoading,
     error: listError,
-  } = useGetProductsQuery();
+  } = useGetProductsQuery({
+    page: 1,
+    limit: 1000,
+  });
 
   const product = productRes?.data;
   const all = allRes?.data ?? [];
@@ -46,16 +47,13 @@ export default function ProductDetailsPage() {
       <Navbar />
 
       <section className="mx-auto max-w-6xl px-4 py-10">
-        {/* Top states */}
-        {!id && <div>Invalid product URL.</div>}
+        {pLoading && <div>Loading...</div>}
+        {pError && <div>Failed to load product</div>}
+        {!pLoading && !product && !pError && <div>Product not found</div>}
 
-        {productLoading && <div>Loading...</div>}
-        {productError && <div>Failed to load product</div>}
-        {!productLoading && !product && !productError && id && <div>Product not found</div>}
-
-        {/* Product details */}
         {product && (
           <>
+            {/* Top section */}
             <div className="grid gap-10 md:grid-cols-2">
               <div className="rounded-2xl bg-white p-6">
                 <div className="flex items-center justify-center">
@@ -99,18 +97,22 @@ export default function ProductDetailsPage() {
                 <div className="mx-auto inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
                   Our Products
                 </div>
-                <h2 className="mt-3 text-2xl font-bold text-gray-900">Related products</h2>
+                <h2 className="mt-3 text-2xl font-bold text-gray-900">
+                  Related products
+                </h2>
               </div>
 
-              {(listLoading || listError) && (
+              {listLoading ? (
                 <div className="mt-8 text-center text-sm text-gray-500">
-                  {listLoading ? "Loading related..." : "Failed to load related products."}
+                  Loading related...
                 </div>
-              )}
-
-              {!listLoading && !listError && (
+              ) : listError ? (
+                <div className="mt-8 text-center text-sm text-gray-500">
+                  Failed to load related products.
+                </div>
+              ) : (
                 <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-                  {showRelated.map((p: Product) => (
+                  {showRelated.map((p) => (
                     <ProductCard key={p.id} product={p} />
                   ))}
                 </div>
