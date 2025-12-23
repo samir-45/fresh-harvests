@@ -29,7 +29,7 @@ export default function Navbar() {
     return (
         <>
             <div className="navbar w-11/12 mx-auto">
-                {/* LEFT: Logo (unchanged) */}
+                {/* logo */}
                 <div className="navbar-start">
                     <Link href="/" className="btn btn-ghost text-xl gap-2">
                         <Image
@@ -42,7 +42,7 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                {/* CENTER: Desktop menu */}
+                {/* menu */}
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
                         <li>
@@ -60,10 +60,7 @@ export default function Navbar() {
                     </ul>
                 </div>
 
-                {/* RIGHT: Buttons then hamburger (mobile) */}
                 <div className="navbar-end gap-2">
-                    {/* Your buttons first */}
-
                     {isHome? <button className="items-center hidden md:flex md:btn-md px-4 space-x-2">
                         <Image src="/assets/icons/heart-w.svg" alt="Cart Icon" width={30} height={30} />
                         <p className={`font-medium ${isHome ? "text-white" : "text-black"}`}>Favorites</p>
@@ -107,7 +104,6 @@ export default function Navbar() {
                         </button>
                     )}
 
-                    {/* Hamburger at the far right on small devices */}
                     <div className="dropdown dropdown-end lg:hidden">
                         <div tabIndex={0} role="button" className={`btn btn-ghost ${isHome ? "text-white" : "text-black"}`}>
                             <svg
@@ -143,7 +139,6 @@ export default function Navbar() {
                                 <a href="#blog">Blog</a>
                             </li>
 
-                            {/* Optional: auth links also in the hamburger menu */}
                             {token ? (
                                 <>
                                     <li>
