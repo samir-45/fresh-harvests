@@ -2,15 +2,12 @@
 
 import Navbar from "@/components/layout/Navbar";
 import {
-  ProductFromApi,
   useGetAllProductsQuery,
   useGetProductByIdQuery,
 } from "@/store/services/api";
 import Image from "next/image";
-import Link from "next/link";
 import { useMemo } from "react";
 import { useParams } from "next/navigation";
-import ProductCard from "@/components/product/ProductCard";
 import RelatedProductsSection from "@/components/product/RelatedProductsSection";
 
 export default function ProductDetailsPage() {
@@ -39,7 +36,6 @@ const { data: allProducts = [], isLoading: listLoading } =
                 <div className="min-h-screen w-full flex items-center justify-center">
                 <span className="loading mx-auto loading-spinner text-[#749B3F]"></span>
                 </div>
-                {/* <div className="mx-auto max-w-6xl px-4 py-10">Loading...</div> */}
             </main>
         );
     }

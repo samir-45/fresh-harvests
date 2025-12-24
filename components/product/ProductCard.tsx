@@ -47,7 +47,6 @@ export default function ProductCard({ product }: { product: Product }) {
 
         <p className="mt-1 text-sm text-gray-500">${product.price}/kg</p>
 
-        {/* Button (outline by default, orange on hover/focus like screenshot) */}
         <button
           onClick={() => dispatch(addToCart(product))}
           className="

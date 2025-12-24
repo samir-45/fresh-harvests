@@ -1,36 +1,145 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🥬 Fresh Harvests — Grocery Shop (Next.js)
 
-## Getting Started
+A responsive **grocery shop web application** built with **Next.js (App Router)**, **TypeScript**, **Tailwind CSS / DaisyUI**, **Redux Toolkit**, and **RTK Query**.
 
-First, run the development server:
+Users can browse products, view product details, and admins can manage products and categories.
+
+---
+
+## 🚀 Tech Stack
+
+* **Next.js** (App Router)
+* **TypeScript**
+* **Tailwind CSS** + **DaisyUI**
+* **Redux Toolkit**
+* **RTK Query**
+* **Vercel** (deployment)
+
+---
+
+## ✨ Features
+
+### 👥 Public Features
+
+* Home page with featured & filtered products
+* Shop page with category-based filtering (client-side)
+* Product details page with related products
+* Authentication modals (Login / Register)
+* Auth token stored in `localStorage`
+* Token automatically attached to API requests
+
+### 🔐 Admin Features
+
+* Admin-only navigation
+* Create new products
+* Create new categories
+* View/manage product list
+* Delete products
+
+> ⚠️ **Note:** Admin authorization must be enforced by the backend.
+> The frontend only hides or blocks admin routes visually.
+
+---
+
+## 📁 Project Structure (High-Level)
+
+```
+app/                 # Next.js App Router pages
+components/          # Reusable UI components (Navbar, Cards, Modals)
+store/
+├─ services/
+│  └─ api.ts         # RTK Query API definitions
+├─ features/
+│  └─ auth/          # Auth slice (token, isAdmin)
+└─ store.ts          # Redux store setup
+```
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env.local` file in the project root:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://23.239.111.164:5001/api/v1
+```
+
+### Vercel Setup
+
+In **Vercel → Project → Settings → Environment Variables**, add:
+
+```
+NEXT_PUBLIC_API_BASE_URL = http://23.239.111.164:5001/api/v1
+```
+
+Then redeploy the project.
+
+---
+
+## 🧑‍💻 Getting Started (Local Development)
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Build & run production
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠 Admin Credentials (Testing Only)
 
-To learn more about Next.js, take a look at the following resources:
+> ⚠️ For demo/testing purposes only
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* **Email:** `admin@gmail.com`
+* **Password:** `123456`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🔌 API Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Auth token is saved in `localStorage` after login
+* For protected (admin) routes, the token is sent as a header:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  ```
+  Authorization: <token>
+  ```
+
+  (No `Bearer` prefix)
+
+---
+
+## 📜 Scripts
+
+* `npm run dev` — Run development server
+* `npm run build` — Create production build (with TypeScript checks)
+* `npm run start` — Run production server
+* `npm run lint` — Run linter
+
+---
+
+## 🌍 Deployment
+
+Deployed on **Vercel**.
+
+* Do **not** commit `.env.local`
+* Always configure environment variables in Vercel settings
+
+---
+
+## 📄 License
+
+This project is created as a **Job task of SM Technology** only.
+

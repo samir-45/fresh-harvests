@@ -18,7 +18,6 @@ export default function ProductDetailsPage() {
   const { data: productRes } = useGetProductByIdQuery(productArg);
   const product = productRes?.data ?? null;
 
-  // 🔥 NOW THIS IS Product[] | undefined
 const { data: allProducts = [] } = useGetAllProductsQuery({ page: 1, limit: 1000 });
 
 

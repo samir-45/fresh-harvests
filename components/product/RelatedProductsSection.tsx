@@ -18,7 +18,6 @@ export default function RelatedProductsSection({
     limit: 1000,
   });
 
-  // IMPORTANT: your working shape is listRes?.data (same as FeaturedProductsSection)
   const allProducts = listRes?.data ?? [];
 
   const related = useMemo(() => {
