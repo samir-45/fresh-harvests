@@ -5,6 +5,7 @@ import { useEffect, useId, useState } from "react";
 import { useLoginMutation, useRegisterMutation } from "@/store/services/api";
 import { useAppDispatch } from "@/store/hooks";
 import { setToken } from "@/store/features/auth/authSlice";
+import toast from "react-hot-toast";
 
 type Props = {
   open: boolean;
@@ -91,6 +92,7 @@ export default function RegisterModal({ open, onClose, onOpenLogin }: Props) {
       const token = res.data?.token;
       if (!token) throw new Error("Token missing");
       dispatch(setToken(token));
+      toast.success('Successfully Registered!');
       onClose();
     } catch (error: any) {
       setErr(error?.data?.message || "Register failed");

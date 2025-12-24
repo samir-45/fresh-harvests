@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function AdminUploadProductsPage() {
 
@@ -50,7 +51,6 @@ export default function AdminUploadProductsPage() {
     try {
       let categoryIdToUse = selectedCategoryId;
 
-      // If no category has pre made, new category we can make
       if (newCategoryName.trim()) {
         const catRes = await addCategory({
           categoryName: newCategoryName.trim(),
@@ -80,11 +80,14 @@ export default function AdminUploadProductsPage() {
       setImageUrl("");
       setSelectedCategoryId("");
       setNewCategoryName("");
+
+      toast.success('New product Added!');
     } catch (err: any) {
       console.error(err);
       setError(
         err?.data?.message || "Failed to save product. Please try again."
       );
+      toast.error(err?.data?.message || "Failed to save product. Please try again.");
     }
   };
 

@@ -51,7 +51,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <button
           onClick={() => dispatch(addToCart(product))}
           className="
-            mt-4 w-full rounded-xl border border-gray-200
+            mt-4 w-full rounded-xl border border-gray-200 cursor-pointer
             bg-white py-3 text-sm font-medium text-gray-700
             transition-colors
             hover:border-orange-500 hover:bg-orange-500 hover:text-white

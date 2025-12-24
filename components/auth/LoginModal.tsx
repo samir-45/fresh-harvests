@@ -5,6 +5,7 @@ import { useEffect, useId, useState } from "react";
 import { useLoginMutation, useLazyGetUsersQuery } from "@/store/services/api";
 import { useAppDispatch } from "@/store/hooks";
 import { setAuth, setToken, type Role } from "@/store/features/auth/authSlice";
+import toast from "react-hot-toast";
 
 type Props = {
   open: boolean;
@@ -85,7 +86,7 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
 
       // Save token + email + role together
       dispatch(setAuth({ token, email, role }));
-
+      toast.success('Successfully Logined!')
       onClose();
     } catch (error: any) {
       setErr(error?.data?.message || "Login failed");
@@ -157,7 +158,7 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
             <button
               type="button"
               className="text-sm font-semibold text-gray-700 underline underline-offset-2"
-              onClick={() => {}}
+              onClick={() => { }}
             >
               Forgot Password
             </button>

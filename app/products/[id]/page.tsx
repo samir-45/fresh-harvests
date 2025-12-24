@@ -91,10 +91,10 @@ const { data: allProducts = [], isLoading: listLoading } =
                         <p className="mt-4 text-sm leading-7 text-gray-600">{product.description}</p>
 
                         <div className="mt-6 flex gap-4">
-                            <button className="h-11 w-full rounded-xl bg-gray-100 text-sm font-semibold text-gray-600">
+                            <button className="h-11 w-full cursor-pointer rounded-xl bg-gray-100 text-sm font-semibold text-gray-600">
                                 Save as favorite
                             </button>
-                            <button className="h-11 w-full rounded-xl bg-orange-500 text-sm font-semibold text-white">
+                            <button className="h-11 cursor-pointer w-full rounded-xl bg-orange-500 text-sm font-semibold text-white">
                                 Add to cart
                             </button>
                         </div>

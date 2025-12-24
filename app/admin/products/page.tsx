@@ -6,6 +6,7 @@ import { useAppSelector } from "@/store/hooks";
 import { useDeleteProductByIdMutation, useGetProductsQuery } from "@/store/services/api";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 export default function AdminProductsPage() {
     const router = useRouter();
@@ -26,8 +27,8 @@ export default function AdminProductsPage() {
         if (!ok) return;
 
         try {
-            await deleteProduct(id).unwrap(); // unwrap to throw on error [web:647]
-            // success -> Products tag invalidated -> list refetches [web:786]
+            await deleteProduct(id).unwrap(); 
+            toast.success('Product deleted successfully!');
         } catch (e: any) {
             alert(e?.data?.message ?? "Delete failed");
         }
@@ -54,7 +55,7 @@ export default function AdminProductsPage() {
                             <button
                                 onClick={() => onDelete(p.id)}
                                 disabled={deleting}
-                                className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+                                className="btn btn-error text-sm font-medium text-white disabled:opacity-60"
                             >
                                 Delete
                             </button>
