@@ -81,7 +81,7 @@ export default function Navbar() {
                 <div className="dropdown cursor-pointer dropdown-end">
                   <div tabIndex={0} role="button" className={`px-5 py-1.5 hidden sm:block cursor-pointer border-[1.4px] rounded-sm sm:btn-md ${btnBorder}`}>Admin</div>
                   <ul
-                    tabIndex="-1"
+                    tabIndex={-1}
                     className="menu dropdown-content rounded-box z-1 space-y-2 mt-4 w-52 p-2 shadow-sm">
                     <li>
                       <Link
