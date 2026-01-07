@@ -137,9 +137,3 @@ Deployed on **Vercel**.
 * Do **not** commit `.env.local`
 * Always configure environment variables in Vercel settings
 
----
-
-## 📄 License
-
-This project is created as a **Job task of SM Technology** only.
-
