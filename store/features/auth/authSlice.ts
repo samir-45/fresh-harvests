@@ -18,6 +18,10 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+
+    // write reducers ----------------------------------------------------------
+
+    //* This is to persist whole auth info session together
     setAuth(
       state,
       action: PayloadAction<{ token: string; email: string; role: Role }>
@@ -33,12 +37,13 @@ const authSlice = createSlice({
       }
     },
 
-    // keep this if you still use it in some places
+    //* keep this if you still use it in some places
     setToken(state, action: PayloadAction<string>) {
       state.token = action.payload;
       if (typeof window !== "undefined") localStorage.setItem("token", action.payload);
     },
 
+    //* This is to clear all auth info on logout-------------------------------------
     logout(state) {
       state.token = null;
       state.email = null;
@@ -50,12 +55,14 @@ const authSlice = createSlice({
         localStorage.removeItem("role");
       }
     },
+    // write reducers Done ----------------------------------------------------------
+
   },
 });
 
 export const { setAuth, setToken, logout } = authSlice.actions;
 
-// selectors (use everywhere)
+//* selectors to use everywhere to verify role
 export const selectRole = (s: any) => s.auth.role as Role | null;
 export const selectIsAdmin = (s: any) =>
   s.auth.role === "ADMIN" || s.auth.role === "SUPER_ADMIN";
