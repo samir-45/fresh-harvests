@@ -71,23 +71,41 @@ export type CreateProductReq = {
 export const api = createApi({
   reducerPath: "api",
 
+  // From here we start to create apis -----------------------------------------------------------
+
   baseQuery: fetchBaseQuery({
+
+    // Normal fetch base query with Authorization header
+
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+
     prepareHeaders: (headers) => {
+
       if (typeof window !== "undefined") {
+
         const token = localStorage.getItem("token");
+
         if (token) {
           // Postman example: Authorization: <token> (no Bearer)
           headers.set("Authorization", token);
         }
+
       }
+
       return headers;
+
     },
+
   }),
+
+  // Fetch base query done--------------------------------------------------------------------------
 
   tagTypes: ["Products", "Categories"],
 
   endpoints: (builder) => ({
+
+    // ----------------------From here we start to create actual endpoint apis --------------------------
+
     // Auth
     login: builder.mutation<LoginRes, LoginReq>({
       query: (body) => ({
@@ -96,6 +114,7 @@ export const api = createApi({
         body,
       }),
     }),
+
     register: builder.mutation<RegisterRes, RegisterReq>({
       query: (body) => ({
         url: "/users/register",
@@ -104,26 +123,18 @@ export const api = createApi({
       }),
     }),
 
-    // Public data
-    // getProducts: builder.query<ApiResponse<Product[]>, void>({
-    //   query: () => "/products",
-    //   providesTags: ["Products"],
-    // }),
-    // getProductById: builder.query<ApiResponse<Product>, string>({
-    //   query: (id) => `/products/${id}`,
-    // }),
 
-getProducts: builder.query<ApiResponse<ProductFromApi[]>, { page?: number; limit?: number }>({
-  query: ({ page = 1, limit = 10 } = {}) => `/products?page=${page}&limit=${limit}`,
-  providesTags: ["Products"],
-}),
+    getProducts: builder.query<ApiResponse<ProductFromApi[]>, { page?: number; limit?: number }>({
+      query: ({ page = 1, limit = 10 } = {}) => `/products?page=${page}&limit=${limit}`,
+      providesTags: ["Products"],
+    }),
 
 
+    //TODO (res: ApiResponse<ProductsListPayload>) - need to understand this
     getAllProducts: builder.query<ProductFromApi[], { page: number; limit: number }>({
       query: ({ page, limit }) => `/products?page=${page}&limit=${limit}`,
       transformResponse: (res: ApiResponse<ProductsListPayload>) => res.data.data,
     }),
-
 
 
     getProductById: builder.query<ApiResponse<ProductFromApi>, string>({
@@ -183,6 +194,9 @@ getProducts: builder.query<ApiResponse<ProductFromApi[]>, { page?: number; limit
       invalidatesTags: ["Products"],
     }),
   }),
+
+  // From here we end to create apis -----------------------------------------------------------
+
 });
 
 export const {

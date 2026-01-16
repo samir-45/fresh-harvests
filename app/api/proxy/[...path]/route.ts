@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-const API_BASE = "http://23.239.111.164:5001/api/v1";
+const API_BASE = "https://plantify-server-ashen.vercel.app/api/v1";
+// const API_BASE = "http://localhost:5000/api/v1";
 
 type Ctx = { params: Promise<{ path: string[] }> };
 

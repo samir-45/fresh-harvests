@@ -43,7 +43,9 @@ function EyeIcon({ open }: { open: boolean }) {
 
 export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
   const dispatch = useAppDispatch();
+  // For doing login --------------------------------------------------
   const [login, { isLoading }] = useLoginMutation();
+
   const [triggerUsers] = useLazyGetUsersQuery();
 
   const [email, setEmail] = useState("");
@@ -68,14 +70,16 @@ export default function LoginModal({ open, onClose, onOpenRegister }: Props) {
 
     try {
       const res = await login({ email, password }).unwrap();
+
       const token = res.data?.token;
       if (!token) throw new Error("Token missing");
 
-      // Optional but useful: store token first so any authenticated /users call works
+      // store token first so any authenticated /users call works
       dispatch(setToken(token));
 
       // Fetch all users then find me by email
       const usersRes = await triggerUsers({ page: 1, limit: 1000 }).unwrap(); // [web:610]
+
       const users = (usersRes?.data?.data ?? []) as Array<{ email?: string; role?: Role }>;
 
       const me = users.find(

@@ -10,8 +10,8 @@ const HeroSection = () => {
                 <Navbar />
             </div>
 
-            {/* Background Texture Overlay (Optional: if your texture is a pattern image) */}
-            <div className="absolute inset-0 bg-[url('/assets/bg/paper/texture.png')] opacity-50 mix-blend-multiply pointer-events-none"
+            {/* Background Texture Overlay*/}
+            <div className="absolute inset-0 bg-[url('/assets/bg/paper-texture.png')] object-contain pointer-events-none"
 
             ></div>
 
